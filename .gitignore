@@ -1,0 +1,7 @@
+# exclude all generated example and test cases
+example*
+test*
+#exclude my test files
+itworks
+#exclude the archived commands. 
+old_commands/

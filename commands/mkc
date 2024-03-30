@@ -1,0 +1,97 @@
+#!/bin/bash
+
+# Function to create the directory structure and files for a C++ project
+create_cpp_project() {
+    local project_name=$1
+    local cpp_standard=$2
+
+    # Create project directory
+    mkdir -p "$project_name/src" "$project_name/include" "$project_name/build"
+
+    # Create main.cpp with standard template
+    cat > "$project_name/src/main.cpp" <<EOF
+#include <iostream>
+#include <string>
+#include "../include/common.h"
+
+int main() {
+    std::cout << hello_world << std::endl;
+    return 0;
+}
+EOF
+
+    # Create common.h with standard template
+    cat > "$project_name/include/common.h" <<EOF
+#pragma once
+#include <string>
+// Add your common includes here
+std::string hello_world = "\n\n\n \t\t IT WORKS! \n\n";
+EOF
+
+    # Create CMakeLists.txt with project configuration
+    cat > "$project_name/CMakeLists.txt" <<EOF
+cmake_minimum_required(VERSION 3.10)
+project($project_name LANGUAGES CXX)
+
+# Set C++ standard
+set(CMAKE_CXX_STANDARD $cpp_standard)
+
+# Add executable
+add_executable($project_name src/main.cpp)
+EOF
+
+    # Create dev_debug.sh script
+    cat > "$project_name/dev_debug.sh" <<'EOF'
+#!/bin/bash
+
+# Extract the project name from the directory name
+project_name=$(basename "$(pwd)")
+
+# Change directory to the build directory
+cd build
+
+# Run CMake
+cmake ..
+
+# Build the project with make
+make
+
+# Run gdb and attach the executable
+# Use the project name as the executable name
+gdb -ex "run" --args ./"$project_name"
+
+# Change directory back to the original directory
+cd ..
+EOF
+
+    # Make dev_debug.sh executable
+    chmod +x "$project_name/dev_debug.sh"
+
+    echo "C++ project '$project_name' created successfully."
+}
+
+# Parse command line arguments
+if [ $# -lt 1 ]; then
+    echo "Usage: $0 <project_name> [options]"
+    exit 1
+fi
+
+project_name=$1
+shift
+
+cpp_standard="11"  # Default C++ standard
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -v|--cpp-version)
+            shift
+            cpp_standard=$1
+            ;;
+        *)
+            echo "Unknown option: $1"
+            exit 1
+            ;;
+    esac
+    shift
+done
+
+create_cpp_project "$project_name" "$cpp_standard"

@@ -36,6 +36,7 @@ Project Outline
         include/            : Header files directory
         include/common.h    : Template for shared Header
         build/              : Build files directory
+        dev_debug.sh        : Shell script for building and running program in gdb debugger
 ```
 
 ##Features

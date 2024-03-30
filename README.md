@@ -1,8 +1,8 @@
-#Make-C
+# Make-C
 
 Make-C is a simple shell script designed to create a new minimalist project folder for C++ development. With Make-C, you can quickly set up the basic directory structure and files needed for your C++ projects.
 
-##Installation
+## Installation
 
 To install Make-C, follow these steps:
 
@@ -20,7 +20,7 @@ Run the installation command as sudo:
 ```
 This will install the Make-C script to your system and make it available for use as a command-line utility.
 
-##Usage
+## Usage
 
 To create a new C++ project using Make-C, simply run the mkc command followed by the name of your project. mkc [project name] For example:
 
@@ -39,7 +39,7 @@ Project Outline
         dev_debug.sh        : Shell script for building and running program in gdb debugger
 ```
 
-##Features
+## Features
 
 Automatically creates a basic directory structure (src, include, build) for your project.
 Generates main.cpp and common.h files with standard templates.
